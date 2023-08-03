@@ -34,4 +34,11 @@ public class GlobalExceptionHandler {
 
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
 	    }
+	 
+	  @ExceptionHandler(DoctorNotAssociatedException.class)
+	    public ResponseEntity<ApiResponse> doctorNotAssociatedException(DoctorNotAssociatedException ex) {
+	        String msg = ex.getMessage();
+	        ApiResponse apiResponse = new ApiResponse(msg, false);
+	        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST);
+	    }
 }

@@ -1,46 +1,50 @@
 package com.ptpl.veternary_website.entities;
 
-import java.util.Calendar;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name ="Hospitals")
+@Table(name = "Hospitals")
+@NoArgsConstructor
 @Setter
 @Getter
 public class Hospital {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long hosId;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int hosId;
 
- 
-@Column(nullable = false)
-	private String name ;
-	//may hava multiple mobile numbers
-	private String mblNo;
-	private String email;
-	private String website;
-	private String hosOpeningDate;
-	
-	private Date openingTime;
-	private Date closingTime ;
-
-	private Date hosRegisterId;
-	//may have multiple owners
-	private String owner;
-	private String addr;
-	
+	@Column(columnDefinition = "boolean default false")
 	private boolean isVerified;
+
+	@Column(columnDefinition = "varchar(255) default 'Processing'")
 	private String status;
+
+	@Column(columnDefinition = "int default 0")
+	private int totalSections;
 	
+	private String note;
+
+	@ManyToMany
+	@JoinTable(name = "Hospitals_doctors", joinColumns = @JoinColumn(name = "hos_id"), inverseJoinColumns = @JoinColumn(name = "doc_id"))
+	private List<Doctor> doctors;
+
+	@OneToOne
+	private Establishment establishment;
+	
+	@OneToMany(mappedBy = "hospital")
+	private List<AppoinmentInformation> slotInformations;
 }

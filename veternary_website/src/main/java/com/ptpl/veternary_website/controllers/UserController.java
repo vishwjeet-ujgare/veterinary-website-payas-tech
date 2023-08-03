@@ -31,19 +31,19 @@ public class UserController {
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
 		UserDto createdUserDto = this.userService.createUser(userDto);
-		return new ResponseEntity<>(createdUserDto, HttpStatus.CREATED);
+		return new ResponseEntity<UserDto>(createdUserDto, HttpStatus.CREATED);
 	}
 
 	// PUT -> Update user
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Long userId) {
+	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Integer userId) {
 		UserDto updatedUser = userService.updateUser(userDto, userId);
 		return ResponseEntity.ok(updatedUser);
 	}
 
 	// DELETE -> Delete user
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Long id) {
+	public ResponseEntity<ApiResponse> deleteUser(@PathVariable("userId") Integer id) {
 		this.userService.deleteUserById(id);
 		
 		return  new ResponseEntity<ApiResponse>(new ApiResponse("User Deleted Successfully",true),HttpStatus.OK);
@@ -51,7 +51,7 @@ public class UserController {
 
 	// GET -> get a  user by id 
 	@GetMapping("/{userId}")
-	public ResponseEntity<UserDto> getUserById(@PathVariable Long userId)
+	public ResponseEntity<UserDto> getUserById(@PathVariable Integer userId)
 	{
 	
 		return ResponseEntity.ok( this.userService.getUserById(userId));
